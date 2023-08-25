@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.examly.springapp.service.TasksService;
 import com.examly.springapp.model.Task;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 public class TaskController {
@@ -24,14 +25,14 @@ public class TaskController {
 		return tasksservice.getAllTasks();
 	}
 
-    @GetMapping("/getTask/{taskId}")
-	public Task getTask(@PathVariable("taskId") String taskId)
+    @GetMapping("/getTask")
+	public Task getTask(@RequestParam("taskId") String taskId)
 	{
 		return tasksservice.getTaskById(taskId);
 	}
 
-    @DeleteMapping("/deleteTask/{taskId}")
-	public void deleteTask(@PathVariable("taskid") String taskid)
+    @DeleteMapping("/deleteTask")
+	public void deleteTask(@RequestParam("taskid") String taskid)
 	{
 		tasksservice.delete(taskid);
 	}
