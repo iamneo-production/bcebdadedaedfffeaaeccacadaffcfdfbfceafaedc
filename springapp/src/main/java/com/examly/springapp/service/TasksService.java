@@ -30,7 +30,7 @@ public class TasksService {
         tasksRepository.deleteById(taskId);
     }
 
-    public void updateTaskStatus(String taskId, String taskStatus) {
-        tasksRepository.updateTaskStatus(taskId, taskStatus);
+    public void updateTaskStatus(Task task) {
+        tasksRepository.save(task);
     }
 }
