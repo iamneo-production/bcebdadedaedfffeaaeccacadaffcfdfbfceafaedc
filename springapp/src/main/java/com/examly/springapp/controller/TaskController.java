@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class TaskController {
     
     @Autowired
-    private TaskService taskService;
+    private TaskService taskservice;
 
     @GetMapping("/")
     public String sayHello(){
@@ -28,7 +28,7 @@ public class TaskController {
 
     @GetMapping("/alltasks")
     public List<Task> getAllTasks() {
-        return taskService.getAllList();
+        return taskService.getAllTasks();
     }
 
     @GetMapping("/getTask")
@@ -42,7 +42,7 @@ public class TaskController {
     }
     
     // PUT REQ
-    @RequestMapping(value = "/changeStatus", method = RequestMethod.PUT)
+    @PutMapping(value = "/changeStatus", method = RequestMethod.PUT)
     public void updateStatus(@RequestParam("id") Integer id,  @RequestBody Task task ) { 
         taskService.updateStatus(id, task);
     }
