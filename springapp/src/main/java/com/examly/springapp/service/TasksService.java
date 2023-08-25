@@ -1,56 +1,36 @@
 package com.examly.springapp.service;
 
 import java.util.List;
-import com.examly.springapp.repository.TaskRepository;
-import com.examly.springapp.entity.Taskentity;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
+
+import com.examly.springapp.model.Task;
+import com.examly.springapp.repository.TasksRepository;
 
 @Service
-public class TaskService {
-    @Autowired
-    private TaskRepository repository;
+public class TasksService {
+    @Autowired    
+    TasksRepository tasksRepository;
 
-    public Taskentity saveTask(Taskentity taskentity){
-        repository.save(taskentity);
-        return taskentity;
+    public List<Task> getAllTasks()    {
+        return (List<Task>) tasksRepository.findAll();
     }
 
-    public Taskentity updatetaskStatus(String taskId){
-        Optional<Taskentity> taskentity = repository.findByTaskId(taskId);
-        if(taskentity.isPresent()){
-            taskentity.get().setTaskStatus("Accepted");
-            repository.save(taskentity.get());
-            return taskentity.get();
-        }
-        return null;
-        
+    public Task getTaskById(String taskId) {
+        return tasksRepository.findById(taskId).orElse(null);
     }
 
 
-    public String deleteTask(String id){
-        Optional<Taskentity> taskentity = repository.findByTaskId(id);
-        if(taskentity.isPresent()){
-            repository.deleteByTaskId(id);
-            return"Task Deleted Successfully";
-        }
-        return "User not Found";
+    public void saveTasks(Task task)    {
+        tasksRepository.save(task);
     }
 
-
-    public List<Taskentity> getallTasks(){
-        return repository.findAll();
+    public void delete(String taskId)    {
+        tasksRepository.deleteById(taskId);
     }
 
-    public Taskentity gettaskbyid(String id){
-        Optional<Taskentity> taskentity = repository.findByTaskId(id);
-        if(taskentity.isPresent()){
-            return taskentity.get();
-        }
-        return null;
+    public void updateTaskStatus(Task task) {
+        tasksRepository.save(task);
     }
-
-    
-
 }

@@ -1,46 +1,56 @@
 package com.examly.springapp.controller;
 
-import com.examly.springapp.entity.Taskentity;
-import com.examly.springapp.service.TaskService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import com.examly.springapp.service.TasksService;
+import com.examly.springapp.model.Task;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
-@RequestMapping("/tasks") // Specify the base path
 public class TaskController {
-    @Autowired
-    private TaskService service;
-    
-    @PostMapping("/saveTask")
-    public Taskentity saveTask(@RequestBody Taskentity taskEntity) {
-        Taskentity output = service.saveTask(taskEntity);
-        return output;
-    }
 
-    @GetMapping("/changeStatus")
-    public Taskentity updateTaskStatus(@RequestParam("id") String id) {
-        return service.updateTaskStatus(id);
-    }
-
-    @GetMapping("/deleteTask")
-    public String deleteTask(@RequestParam("id") String id) {
-        return service.deleteTask(id);
-    }
+	@Autowired
+	TasksService tasksservice;
 
     @GetMapping("/alltasks")
-    public List<Taskentity> getAllTasks() {
-        return service.getAllTasks();
-    }
+	public List<Task> getAllTasks()
+	{
+		return tasksservice.getAllTasks();
+	}
 
     @GetMapping("/getTask")
-    public Taskentity getTask(@RequestParam("id") String id) {
-        return service.getTaskById(id);
-    }
+	public Task getTask(@RequestParam("taskId") String taskId)
+	{
+		return tasksservice.getTaskById(taskId);
+	}
+
+    @GetMapping("/deleteTask")
+	public void deleteTask(@RequestParam("taskId") String taskId)
+	{
+		tasksservice.delete(taskId);
+	}
+
+	@PostMapping("/saveTask")
+	public String saveTask(@RequestBody Task task) 
+	{
+		tasksservice.saveTasks(task);
+        return task.getTaskId();
+	}
+
+	@PutMapping("/changeStatus")
+	public Task updateTaskStatus(@RequestBody Task task)
+	{
+		tasksservice.updateTaskStatus(task);
+		return task;
+	}    
+
+
+
 }
