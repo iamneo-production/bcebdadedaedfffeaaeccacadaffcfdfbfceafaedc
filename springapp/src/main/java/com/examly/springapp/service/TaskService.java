@@ -1,54 +1,46 @@
+package com.examly.springapp.service;
+// business logic
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import com.examly.springapp.repository.TaskRepository;
-import com.examly.springapp.entity.Taskentity;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
-import java.util.Optional;
 
 @Service
 public class TaskService {
-    @Autowired
-    private TaskRepository repository;
+    // Fake Data
+    private List<Task> tasks = new ArrayList<>(Arrays.asList(
+            new Task(1, "complete Projects", "12/12/2020", "In Progress", "Mark"),
+            new Task(2, "PR pending", "11/12/2020", "In Progress", "Laya"),
+            new Task(3, "Merge Pending", "11/12/2020", "In Progress", "Adam")));
 
-    public Taskentity saveTask(Taskentity taskentity){
-        repository.save(taskentity);
-        return taskentity;
+    public List<Task> getAllList() {
+        return tasks;
     }
 
-    public Taskentity updatetaskStatus(String taskId){
-        Optional<Taskentity> taskentity = repository.findByTaskId(taskId);
-        if(taskentity.isPresent()){
-            taskentity.get().setTaskStatus("Accepted");
-            repository.save(taskentity.get());
-            return taskentity.get();
+    public Task getTask(Integer id) {
+        return tasks.stream().filter(t -> t.getTaskId().equals(id)).findFirst().get();
+    }
+
+
+    // logic for createTask Request
+    public void createTask(Task task) {
+        tasks.add(task);
+    }
+
+    // logic for updateStatus Request
+    public void updateStatus(Integer id, Task task) {
+        for (int i = 0; i < tasks.size(); i++) {
+            Task t = tasks.get(i);
+            if (t.getTaskId().equals(id)) {
+                tasks.set(i, task);
+                return ;
+            }
         }
-        return null;
-        
     }
 
-
-    public String deleteTask(String id){
-        Optional<Taskentity> taskentity = repository.findByTaskId(id);
-        if(taskentity.isPresent()){
-            repository.deleteByTaskId(id);
-            return"Task Deleted Successfully";
-        }
-        return "User not Found";
+    public void deleteTask(Integer id) {
+        tasks.removeIf(t-> t.getTaskId().equals(id));
     }
-
-
-    public List<Taskentity> getallTasks(){
-        return repository.findAll();
-    }
-
-    public Taskentity gettaskbyid(String id){
-        Optional<Taskentity> taskentity = repository.findByTaskId(id);
-        if(taskentity.isPresent()){
-            return taskentity.get();
-        }
-        return null;
-    }
-
-    
-
 }

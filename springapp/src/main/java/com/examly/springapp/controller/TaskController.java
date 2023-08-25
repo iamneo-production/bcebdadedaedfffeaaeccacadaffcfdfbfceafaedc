@@ -1,4 +1,4 @@
-package com.examly.springapp.taskmanagement;
+package com.examly.springapp.controller;
 
 
 // controlls the logic from DB 
