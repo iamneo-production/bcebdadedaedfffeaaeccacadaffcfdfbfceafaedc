@@ -31,8 +31,8 @@ public class TaskController {
         return taskService.getAllList();
     }
 
-    @RequestMapping("/getTask")
-    public Task getTask(@RequestParam("id") Integer id) {
+    @GetMapping("/getTask")
+    public Task (@RequestParam("id") Integer id) {
         return taskService.getTask(id);
     }
 
