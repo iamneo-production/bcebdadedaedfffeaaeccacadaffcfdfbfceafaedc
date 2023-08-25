@@ -13,35 +13,34 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping()
+@RequestMapping("/tasks") // Specify the base path
 public class TaskController {
     @Autowired
     private TaskService service;
     
     @PostMapping("/saveTask")
-    public Taskentity saveTask(@RequestBody Taskentity taskentity){
-        Taskentity output = service.saveTask(taskentity);
+    public Taskentity saveTask(@RequestBody Taskentity taskEntity) {
+        Taskentity output = service.saveTask(taskEntity);
         return output;
     }
 
-
     @GetMapping("/changeStatus")
-    private Taskentity updatetaskStatus(@RequestParam("id") String id){
-        return service.updatetaskStatus(id);
+    public Taskentity updateTaskStatus(@RequestParam("id") String id) {
+        return service.updateTaskStatus(id);
     }
 
     @GetMapping("/deleteTask")
-    private String deleteTask(@RequestParam("id") String id){
+    public String deleteTask(@RequestParam("id") String id) {
         return service.deleteTask(id);
     }
+
     @GetMapping("/alltasks")
-    private List<Taskentity> getallTasks(){
-        return service.getallTasks();
+    public List<Taskentity> getAllTasks() {
+        return service.getAllTasks();
     }
 
     @GetMapping("/getTask")
-    private Taskentity getTask(@RequestParam("id") String id){
-        return service.gettaskbyid(id);
+    public Taskentity getTask(@RequestParam("id") String id) {
+        return service.getTaskById(id);
     }
-
 }
