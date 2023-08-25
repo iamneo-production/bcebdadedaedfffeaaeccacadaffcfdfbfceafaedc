@@ -1,53 +1,62 @@
-package com.examly.springapp.model;
+package com.examly.springapp.taskmanagement;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Column;
 
-@Entity
-@Table
 public class Task {
-	@Id
-    @Column
-	private String taskId;
-    @Column
-	private String taskHolderName;
-    @Column
-	private String taskDate;
-    @Column
-	private String taskName;
-    @Column
-	private String taskStatus;
+    Integer taskId;
+    String  taskName;
+    String  taskDate;
+    String  taskStatus;
+    String  taskHolderName;
 
-	public String getTaskId() {
-		return taskId;
-	}
-	public void setTaskId(String taskId) {
-		this.taskId = taskId;
-	}
-    public String getTaskHolderName() {
-		return taskHolderName;
-	}
-	public void setTaskHolderName(String taskHolderName) {
-		this.taskHolderName = taskHolderName;
-	}
-    public String getTaskDate() {
-		return taskDate;
-	}
-	public void setTaskDate(String taskDate) {
-		this.taskDate = taskDate;
-	}
-	public String getTaskName() {
-		return taskName;
-	}
-	public void setTaskName(String taskName) {
-		this.taskName = taskName;
-	}
-    public String getTaskStatus() {
-		return taskStatus;
+    public Task() {
     }
-	public void setTaskStatus(String taskStatus) {
-		this.taskStatus = taskStatus;
-	}
+
+    public Task(Integer taskId, String taskName, String taskDate, String taskStatus, String taskHolderName) {
+        this.taskId = taskId;
+        this.taskName = taskName;
+        this.taskDate = taskDate;
+        this.taskStatus = taskStatus;
+        this.taskHolderName = taskHolderName;
+    }
+
+    public Integer getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
+    public String getTaskDate() {
+        return taskDate;
+    }
+
+    public void setTaskDate(String taskDate) {
+        this.taskDate = taskDate;
+    }
+
+    public String getTaskStatus() {
+        return taskStatus;
+    }
+
+    public void setTaskStatus(String taskStatus) {
+        this.taskStatus = taskStatus;
+    }
+
+    public String getTaskHolderName() {
+        return taskHolderName;
+    }
+
+    public void setTaskHolderName(String taskHolderName) {
+        this.taskHolderName = taskHolderName;
+    }
+
 }

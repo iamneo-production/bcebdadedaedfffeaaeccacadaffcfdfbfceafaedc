@@ -1,56 +1,59 @@
-package com.examly.springapp.controller;
+package com.examly.springapp.taskmanagement;
 
+
+// controlls the logic from DB 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import com.examly.springapp.service.TasksService;
-import com.examly.springapp.model.Task;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 public class TaskController {
+    
+    @Autowired
+    private TaskService taskService;
 
-	@Autowired
-	TasksService tasksservice;
+    @GetMapping("/")
+    public String sayHello(){
+        return "Hello From /";
+    }
 
     @GetMapping("/alltasks")
-	public List<Task> getAllTasks()
-	{
-		return tasksservice.getAllTasks();
-	}
+    public List<Task> getAllTasks() {
+        return taskService.getAllList();
+    }
 
-    @GetMapping("/getTask")
-	public Task getTask(@RequestParam("taskId") String taskId)
-	{
-		return tasksservice.getTaskById(taskId);
-	}
+    @RequestMapping("/getTask")
+    public Task getTask(@RequestParam("id") Integer id) {
+        return taskService.getTask(id);
+    }
 
-    @GetMapping("/deleteTask")
-	public void deleteTask(@RequestParam("taskId") String taskId)
-	{
-		tasksservice.delete(taskId);
-	}
-
-	@PostMapping("/saveTask")
-	public String saveTask(@RequestBody Task task) 
-	{
-		tasksservice.saveTasks(task);
-        return task.getTaskId();
-	}
-
-	@PutMapping("/changeStatus")
-	public Task updateTaskStatus(@RequestBody Task task)
-	{
-		tasksservice.updateTaskStatus(task);
-		return task;
-	}    
-
+    @PostMapping(value="/saveTask")
+    public void createTask(@RequestBody Task task) {
+        taskService.createTask(task);
+    }
+    
+    // PUT REQ
+    @RequestMapping(value = "/changeStatus", method = RequestMethod.PUT)
+    public void updateStatus(@RequestParam("id") Integer id,  @RequestBody Task task ) { 
+        taskService.updateStatus(id, task);
+    }
+    
+    
+    // Delete Req
+    @DeleteMapping(value = "/deleteTask")
+    public void deleteTask(@RequestParam("id") Integer id) { 
+        taskService.deleteTask(id);
+    }
+    
 
 
 }
