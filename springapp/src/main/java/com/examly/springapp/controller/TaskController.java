@@ -1,58 +1,59 @@
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+package com.examly.springapp.taskmanagement;
 
-@Entity
-@Table(name="Task")
-public class Taskentity {
 
-    @Id
-    private String taskId;
-    private String taskHolderName;
-    private String taskDate;
-    private String taskName;
-    private String taskStatus;
-   
+// controlls the logic from DB 
+import java.util.List;
 
-    public String getTaskId() {
-        return taskId;
-    }
-    public void setTaskId(String taskId) {
-        this.taskId = taskId;
-    }
-    public String getTaskHolderName() {
-        return taskHolderName;
-    }
-    public void setTaskHolderName(String taskHolderName) {
-        this.taskHolderName = taskHolderName;
-    }
-    public String getTaskDate() {
-        return taskDate;
-    }
-    public void setTaskDate(String taskDate) {
-        this.taskDate = taskDate;
-    }
-    public String getTaskName() {
-        return taskName;
-    }
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
-    }
-    public String getTaskStatus(){
-        return taskStatus;
-    }
-    public void setTaskStatus(String taskStatus){
-        this.taskStatus = taskStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+
+@RestController
+public class TaskController {
+    
+    @Autowired
+    private TaskService taskService;
+
+    @GetMapping("/")
+    public String sayHello(){
+        return "Hello From /";
     }
 
-    public Taskentity(String taskId, String taskHolderName, String taskDate, String taskName, String taskStatus) {
-        this.taskId = taskId;
-        this.taskHolderName = taskHolderName;
-        this.taskDate = taskDate;
-        this.taskName = taskName;
-        this.taskStatus = taskStatus;
+    @GetMapping("/alltasks")
+    public List<Task> getAllTasks() {
+        return taskService.getAllList();
     }
-  public Taskentity(){
-      
-  }  
+
+    @RequestMapping("/getTask")
+    public Task getTask(@RequestParam("id") Integer id) {
+        return taskService.getTask(id);
+    }
+
+    @PostMapping(value="/saveTask")
+    public void createTask(@RequestBody Task task) {
+        taskService.createTask(task);
+    }
+    
+    // PUT REQ
+    @RequestMapping(value = "/changeStatus", method = RequestMethod.PUT)
+    public void updateStatus(@RequestParam("id") Integer id,  @RequestBody Task task ) { 
+        taskService.updateStatus(id, task);
+    }
+    
+    
+    // Delete Req
+    @DeleteMapping(value = "/deleteTask")
+    public void deleteTask(@RequestParam("id") Integer id) { 
+        taskService.deleteTask(id);
+    }
+    
+
+
 }
